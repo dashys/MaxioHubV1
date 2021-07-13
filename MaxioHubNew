@@ -81,7 +81,9 @@ f:Button ("Sit" , function()
     game.Players.LocalPlayer.Character.Humanoid.Sit = true
 end)
 
-f:Toggle ("Fly" , function(L)
+
+
+f:Button ("Fly" , function()
 repeat wait()
 	until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
 	local mouse = game.Players.LocalPlayer:GetMouse()
@@ -94,7 +96,7 @@ repeat wait()
 	local lastctrl = {f = 0, b = 0, l = 0, r = 0}
 	local maxspeed = 50
 	local speed = 0
-    
+ 
 	function Fly()
 		local bg = Instance.new("BodyGyro", torso)
 		bg.P = 9e4
@@ -122,7 +124,7 @@ repeat wait()
 			elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
 				bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
 			else
-				bv.velhocity = Vector3.new(0,0.1,0)
+				bv.velocity = Vector3.new(0,0.1,0)
 			end
 			bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
 		until not flying
@@ -135,7 +137,7 @@ repeat wait()
 	end
 	mouse.KeyDown:connect(function(key)
 		if key:lower() == "e" then
-			if (L) == false then flying = false
+			if flying then flying = false
 			else
 				flying = true
 				Fly()
@@ -162,13 +164,18 @@ repeat wait()
 		end
 	end)
 	Fly()
-	end)
+end)
+f:Label ("Fly Keybind = e")
 f:Slider("Walkspeed",0,100,70,function(t)
 game.saPlayers.LocalPlayer.Character.Humanoid.WalkSpeed = (t)
 end)
 
 f:Slider("JumpPower",0,100,70,function(p)
 game.Players.LocalPlayer.Character.Humanoid.JumpPower = (p)
+end)
+
+f:Slider("Fly Speed",0,100,70,function(M)
+maxspeed = (M)
 end)
 
 else
